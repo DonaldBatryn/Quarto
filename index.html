@@ -5,10 +5,19 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="application/javascript" src="main.js"></script>
+        <script type="application/javascript" src="src/pixi.min.js"></script>
         <link href="dist/css/style.css" rel="stylesheet">
-        
     </head>
     <body>
-        <canvas id="game-canvas" width="1000" height="750"></canvas>
+        <!-- <canvas id="game-canvas" width="1000" height="750"></canvas> -->
+        <script type="text/javascript">
+            let app = new PIXI.Application({ width: 1000, height: 700});
+            app.renderer.backgroundColor = 0x061639;
+            app.renderer.view.style.position = "absolute";
+            app.renderer.view.style.display = "block";
+            app.renderer.autoResize = true;
+            app.renderer.resize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(app.view);
+        </script>
     </body>
 </html>
