@@ -50315,6 +50315,7 @@ if ( typeof __THREE_DEVTOOLS__ !== 'undefined' ) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 
+// import * as OC from 
 
 let renderer;
 let scene;
@@ -50326,11 +50327,16 @@ class BoardController {
         this.options = options || {};
         this.containerEl = options.containerEl || null;
         this.assetsUrl = options.assetsUrl || "";
+        this.onAnimationFrame = this.onAnimationFrame.bind(this);
     }
 
     drawBoard() {
         console.log('drawBoard');
-        this.initEngine();
+        let context = this;
+        context.initEngine();
+        context.initObjects(function () {
+            context.onAnimationFrame();
+        })
     }
 
     initEngine() {
@@ -50346,11 +50352,28 @@ class BoardController {
 
         camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](35, viewWidth / viewHeight, 1, 1000);
         camera.position.set(0, 120, 150);
-        // cameraController = new THREE.OrbitControls(camera, this.containerEl);
+        cameraController = new THREE.OrbitControls(camera, this.containerEl);
 
         scene.add(camera);
-        three__WEBPACK_IMPORTED_MODULE_0__["Or"]
+        
         this.containerEl.appendChild(renderer.domElement);
+    }
+
+    initObjects(callback) {
+        // where to route all board and piece creation and add to scene
+        const material = new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: 0x00ff00 });
+        const testPiece = new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](new three__WEBPACK_IMPORTED_MODULE_0__["CubeGeometry"](20, 60, 20))
+        scene.add(testPiece);
+
+        callback();
+    }
+
+    onAnimationFrame() {
+        let context = this;
+        console.log(context.onAnimationFrame);
+        window.requestAnimationFrame(context.onAnimationFrame);
+        cameraController.update();
+        renderer.render(scene, camera);
     }
 }
 
