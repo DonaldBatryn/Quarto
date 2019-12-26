@@ -1,5 +1,5 @@
 import * as THREE1 from 'three';
-// import * as OC from 
+
 
 let renderer;
 let scene;
